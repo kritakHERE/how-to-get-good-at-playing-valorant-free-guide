@@ -1,0 +1,789 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>Valorant Field Notes</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Caveat+Brush&family=Patrick+Hand&display=swap">
+<style>
+/* Layout concept: a blank sheet of clean white paper, written on by hand. Wobbly pen boxes, highlighter swipes, sticky notes, doodled diagrams. One column, generous space. */
+:root{
+  --hand:"Patrick Hand","Segoe Print","Bradley Hand","Comic Sans MS",cursive;
+  --brush:"Caveat Brush","Segoe Print","Comic Sans MS",cursive;
+  --paper:#fdfdfb; --card:#ffffff; --ink:#1f2a4d; --ink2:#525b7c; --rule:#c8cde2;
+  --y:#ffe86e; --p:#ffc2d3; --m:#b2efd0; --b:#b4d9ff; --l:#d9ccff; --o:#ffcf9c;
+  --hot:#c2254a;
+  --duel:#e8543f; --duel-bg:#ffe1db;
+  --init:#c98a00; --init-bg:#fff0c2;
+  --ctrl:#7a49e0; --ctrl-bg:#e8defe;
+  --sent:#0f8f79; --sent-bg:#cdf3ea;
+  --bar:#4f6bdc; --bar-hi:#ff8a3d;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --paper:#14171f; --card:#1c202c; --ink:#eceadf; --ink2:#aab0c6; --rule:#363c55;
+  --y:#6b5c0e; --p:#6b2a40; --m:#1f5a43; --b:#24507f; --l:#4a3a85; --o:#74461a;
+  --hot:#ff8fa8;
+  --duel:#ff8a76; --duel-bg:#4a2a24;
+  --init:#f0b73a; --init-bg:#4a3d14;
+  --ctrl:#b79cff; --ctrl-bg:#392a66;
+  --sent:#4fd1b6; --sent-bg:#154a40;
+  --bar:#8aa2ff; --bar-hi:#ffa05c;
+  color-scheme:dark}}
+:root[data-theme="dark"]{
+  --paper:#14171f; --card:#1c202c; --ink:#eceadf; --ink2:#aab0c6; --rule:#363c55;
+  --y:#6b5c0e; --p:#6b2a40; --m:#1f5a43; --b:#24507f; --l:#4a3a85; --o:#74461a;
+  --hot:#ff8fa8;
+  --duel:#ff8a76; --duel-bg:#4a2a24;
+  --init:#f0b73a; --init-bg:#4a3d14;
+  --ctrl:#b79cff; --ctrl-bg:#392a66;
+  --sent:#4fd1b6; --sent-bg:#154a40;
+  --bar:#8aa2ff; --bar-hi:#ffa05c;
+  color-scheme:dark}
+
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--hand);font-size:1.22rem;line-height:1.65;letter-spacing:.03em;word-spacing:.08em;
+  padding-block:1.5rem 5rem;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.wrap{max-width:880px;margin:0 auto;display:flex;flex-direction:column;gap:4.5rem}
+p{margin:.2em 0 .9em}
+a{color:var(--ink);text-decoration:underline wavy var(--hot);text-underline-offset:4px;text-decoration-thickness:1.5px}
+a:focus-visible,button:focus-visible,summary:focus-visible,input:focus-visible{outline:3px dashed var(--hot);outline-offset:3px}
+strong{font-weight:400;color:var(--hot)}
+.hl{background:linear-gradient(transparent 52%,var(--y) 52%);padding:0 .2em}
+.hl.p{background:linear-gradient(transparent 52%,var(--p) 52%)}
+.hl.m{background:linear-gradient(transparent 52%,var(--m) 52%)}
+.hl.b{background:linear-gradient(transparent 52%,var(--b) 52%)}
+.hl.l{background:linear-gradient(transparent 52%,var(--l) 52%)}
+h1,h2,h3,h4{font-family:var(--brush);font-weight:400;letter-spacing:.02em;line-height:1.1;margin:0;text-wrap:balance}
+h1{font-size:clamp(3.4rem,11vw,6.2rem)}
+h2{font-size:clamp(2.4rem,7vw,3.6rem);text-decoration:underline wavy var(--hot);text-decoration-thickness:3px;text-underline-offset:9px}
+h3{font-size:1.9rem;margin-bottom:.4rem}
+h4{font-size:1.45rem;margin-bottom:.2rem}
+.lede{font-size:1.35rem;color:var(--ink2);max-width:36em}
+.chn{display:inline-block;font-size:1.15rem;color:var(--ink2);border:2px dashed var(--rule);padding:.05em .8em;border-radius:99px;margin-bottom:.8rem;transform:rotate(-2deg)}
+.chh{display:flex;flex-direction:column;align-items:flex-start;gap:.6rem;margin-bottom:1.6rem}
+.stack{display:flex;flex-direction:column;gap:1.4rem}
+.grid{display:grid;gap:1.2rem;grid-template-columns:repeat(auto-fit,minmax(min(100%,250px),1fr))}
+.grid>*{min-width:0}
+
+.box{border:2.5px solid var(--ink);background:var(--card);border-radius:18px 28px 20px 30px/28px 18px 30px 20px;padding:1.1rem 1.3rem}
+.box>:first-child{margin-top:0}.box>:last-child{margin-bottom:0}
+.note{position:relative;background:var(--y);color:var(--ink);padding:1.2rem 1.3rem 1rem;border-radius:4px 4px 28px 4px;box-shadow:3px 5px 0 rgba(31,42,77,.14);transform:rotate(-.8deg)}
+.note.p{background:var(--p);transform:rotate(.9deg)}
+.note.m{background:var(--m);transform:rotate(-.5deg)}
+.note.b{background:var(--b);transform:rotate(.7deg)}
+.note.l{background:var(--l);transform:rotate(-1deg)}
+.note::before{content:"";position:absolute;top:-12px;left:50%;width:86px;height:24px;margin-left:-43px;background:rgba(255,255,255,.55);border:1.5px dashed rgba(31,42,77,.25);transform:rotate(-3deg)}
+.note>:first-child{margin-top:0}.note>:last-child{margin-bottom:0}
+.note h4{margin-bottom:.3rem}
+.tag{display:inline-block;font-size:.95rem;padding:0 .7em;border:2px solid var(--ink);border-radius:99px;background:var(--card);letter-spacing:.05em}
+ul.dots{margin:.3rem 0 .9rem;padding-left:1.3rem}
+ul.dots li{margin:.25em 0}
+ul.dots li::marker{content:"\2736  ";color:var(--hot)}
+ol.steps{margin:.3rem 0 .9rem;padding-left:1.6rem}
+ol.steps li{margin:.35em 0}
+ol.steps li::marker{font-family:var(--brush);color:var(--hot);font-size:1.3em}
+.scroll-x{overflow-x:auto;max-width:100%}
+table.tbl{border-collapse:separate;border-spacing:0;width:100%;min-width:520px;font-size:1.08rem}
+.tbl th,.tbl td{padding:.5rem .8rem;text-align:left;border-bottom:2px dashed var(--rule);vertical-align:top}
+.tbl th{font-family:var(--brush);font-weight:400;font-size:1.25rem;border-bottom:2.5px solid var(--ink)}
+figure{margin:0}
+figure svg{display:block;width:100%;height:auto}
+figcaption{font-size:1rem;color:var(--ink2);margin-top:.4rem;text-align:center}
+svg text{font-family:var(--hand);fill:var(--ink);letter-spacing:.03em}
+svg .brush{font-family:var(--brush)}
+.pen{stroke:var(--ink);fill:none;stroke-width:2.6;stroke-linecap:round;stroke-linejoin:round}
+.pen2{stroke:var(--ink2);fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:6 7}
+.hotpen{stroke:var(--hot);fill:none;stroke-width:3;stroke-linecap:round;stroke-linejoin:round}
+.fy{fill:var(--y)}.fp{fill:var(--p)}.fm{fill:var(--m)}.fb{fill:var(--b)}.fl{fill:var(--l)}.fo{fill:var(--o)}.fc{fill:var(--card)}.fink{fill:var(--ink)}.fhot{fill:var(--hot)}
+.sm{font-size:15px}.md{font-size:17px}.lg{font-size:21px}
+.dim{fill:var(--ink2)}
+
+/* hero */
+.hero{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,220px);gap:1.5rem;align-items:center}
+@media (max-width:640px){.hero{grid-template-columns:1fr}.hero figure{max-width:200px}}
+.hero .sub{font-size:1.5rem;margin-top:.8rem}
+.spin{transform-origin:110px 110px;animation:spin 40s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+@media (prefers-reduced-motion:reduce){.spin{animation:none}html{scroll-behavior:auto}}
+.toc{display:grid;gap:.9rem;grid-template-columns:repeat(auto-fit,minmax(min(100%,230px),1fr))}
+.toc a{display:flex;gap:.7rem;align-items:baseline;text-decoration:none;border:2px solid var(--ink);border-radius:14px 22px 16px 24px/22px 14px 24px 16px;padding:.5rem .9rem;background:var(--card)}
+.toc a:hover{background:var(--y)}
+.toc b{font-family:var(--brush);font-weight:400;font-size:1.5rem;color:var(--hot);min-width:1.4em}
+.asof{font-size:1rem;color:var(--ink2)}
+
+/* roles + agents */
+.tabs{display:flex;flex-wrap:wrap;gap:.6rem;margin:1rem 0 1.4rem}
+.tabs button{font:inherit;letter-spacing:inherit;color:var(--ink);background:var(--card);border:2.5px solid var(--ink);border-radius:99px;padding:.15rem 1.1rem;cursor:pointer}
+.tabs button[aria-pressed="true"]{background:var(--y);transform:rotate(-1.5deg)}
+.agents{display:grid;gap:1.4rem;grid-template-columns:repeat(auto-fill,minmax(min(100%,380px),1fr))}
+.agents>*{min-width:0}
+.ac{border:2.5px solid var(--ink);border-radius:18px 28px 20px 30px/28px 18px 30px 20px;padding:1rem 1.2rem 1.1rem;background:var(--card)}
+.ac header{display:flex;flex-wrap:wrap;align-items:baseline;gap:.4rem .8rem;margin-bottom:.2rem}
+.ac h4{font-size:2rem;margin:0}
+.chip{font-size:.95rem;padding:0 .75em;border-radius:99px;border:2px solid currentColor}
+.r-duel .chip.role{background:var(--duel-bg);color:var(--duel)}
+.r-init .chip.role{background:var(--init-bg);color:var(--init)}
+.r-ctrl .chip.role{background:var(--ctrl-bg);color:var(--ctrl)}
+.r-sent .chip.role{background:var(--sent-bg);color:var(--sent)}
+.chip.sub{color:var(--ink2)}
+.ac .play{color:var(--ink2);margin:.1rem 0 .5rem;font-size:1.05rem}
+.ac ul{list-style:none;margin:0 0 .6rem;padding:0;display:flex;flex-direction:column;gap:.35rem}
+.ac li{padding-left:.1rem;font-size:1.08rem;line-height:1.45}
+.ac li b{font-family:var(--brush);font-weight:400;font-size:1.2rem;letter-spacing:.03em;margin-right:.35em;background:linear-gradient(transparent 55%,var(--y) 55%)}
+.ac li.ult b{background:linear-gradient(transparent 55%,var(--p) 55%)}
+.ac li.ult::before{content:"ULT ";font-size:.8rem;color:var(--hot);letter-spacing:.1em}
+.ac .tip{margin:.3rem 0 0;padding:.4rem .7rem;border:2px dashed var(--rule);border-radius:12px;font-size:1.02rem}
+.diff{margin-left:auto;font-size:.95rem;color:var(--ink2)}
+.rolecard{border-radius:18px 28px 20px 30px/28px 18px 30px 20px;border:2.5px solid var(--ink);padding:1rem 1.2rem}
+.rolecard.duel{background:var(--duel-bg)}.rolecard.init{background:var(--init-bg)}.rolecard.ctrl{background:var(--ctrl-bg)}.rolecard.sent{background:var(--sent-bg)}
+.rolecard h4{font-size:1.8rem}
+.rolecard p{margin:.2rem 0}
+.rolecard .sc{font-size:1.02rem;margin-top:.5rem;padding-top:.5rem;border-top:2px dashed var(--ink2)}
+
+/* ranks */
+.ranks{display:flex;flex-direction:column;gap:.9rem}
+details.rk{border:2.5px solid var(--ink);border-radius:16px 26px 18px 28px/26px 16px 28px 18px;background:var(--card);padding:.2rem 1.2rem}
+details.rk summary{cursor:pointer;display:flex;flex-wrap:wrap;gap:.3rem 1rem;align-items:baseline;padding:.55rem 0;list-style:none}
+details.rk summary::-webkit-details-marker{display:none}
+details.rk summary::before{content:"\25B8";color:var(--hot);font-size:1.4rem}
+details.rk[open] summary::before{content:"\25BE"}
+details.rk summary h3{margin:0;font-size:2rem}
+details.rk .pct{margin-left:auto;color:var(--ink2);font-size:1.05rem}
+details.rk .body{padding:.2rem 0 1rem;display:grid;gap:.4rem 1.4rem;grid-template-columns:repeat(auto-fit,minmax(min(100%,240px),1fr))}
+details.rk .body h4{font-size:1.3rem;color:var(--hot)}
+details.rk .body p{margin:.1rem 0}
+
+/* checklist */
+.check{display:flex;flex-direction:column;gap:.5rem}
+.check label{display:flex;gap:.7rem;align-items:flex-start;cursor:pointer}
+.check input{margin-top:.5rem;width:1.15rem;height:1.15rem;accent-color:var(--hot);flex:none}
+.check input:checked+span{text-decoration:line-through;text-decoration-color:var(--hot);text-decoration-thickness:2px;color:var(--ink2)}
+.btnrow{display:flex;gap:.7rem;flex-wrap:wrap;margin-top:.8rem}
+.btn{font:inherit;letter-spacing:inherit;color:var(--ink);background:var(--card);border:2.5px solid var(--ink);border-radius:99px;padding:.1rem 1.1rem;cursor:pointer}
+.btn:hover{background:var(--m)}
+.src li{margin:.35em 0;font-size:1.05rem;overflow-wrap:anywhere}
+.grid2{display:grid;gap:1.4rem;grid-template-columns:repeat(auto-fit,minmax(min(100%,360px),1fr))}
+.grid2>*{min-width:0}
+</style>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false"><defs>
+<filter id="wob" x="-5%" y="-5%" width="110%" height="110%"><feTurbulence type="fractalNoise" baseFrequency="0.022" numOctaves="2" seed="4" result="n"/><feDisplacementMap in="SourceGraphic" in2="n" scale="3.2"/></filter>
+<marker id="ah" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M1 1 L9 5 L1 9" fill="none" stroke="context-stroke" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></marker>
+</defs></svg>
+
+<div class="wrap">
+
+<header class="hero">
+  <div>
+    <span class="chn">field notes &middot; updated 21 Nov 2026 &middot; patch 13.09 era</span>
+    <h1>Valorant,<br><span class="hl">by hand.</span></h1>
+    <p class="sub">Movement, crosshair, game sense, strategy, mindset, judgment, every rank, all 30 agents up to Hush, and a practice lab you can repeat every day.</p>
+    <p class="asof">Built from current guides, patch notes and pro advice. Cooldowns and prices change every patch, so the in-game ability text always wins over my notes.</p>
+  </div>
+  <figure aria-hidden="true">
+    <svg viewBox="0 0 220 220"><g filter="url(#wob)"><g class="spin"><circle class="pen" cx="110" cy="110" r="78"/><circle class="pen2" cx="110" cy="110" r="52"/></g>
+      <path class="hotpen" d="M110 14 V70 M110 150 V206 M14 110 H70 M150 110 H206"/><circle class="fhot" cx="110" cy="110" r="6"/></g></svg>
+  </figure>
+</header>
+
+<nav aria-label="Chapters"><div class="toc">
+  <a href="#ch1"><b>1</b> The big picture</a>
+  <a href="#ch2"><b>2</b> Movement</a>
+  <a href="#ch3"><b>3</b> Crosshair placement</a>
+  <a href="#ch4"><b>4</b> Game sense</a>
+  <a href="#ch5"><b>5</b> Strategy</a>
+  <a href="#ch6"><b>6</b> War mindset</a>
+  <a href="#ch7"><b>7</b> Decisions and judgment</a>
+  <a href="#ch8"><b>8</b> Radiant and pro wisdom</a>
+  <a href="#ch9"><b>9</b> Rank by rank</a>
+  <a href="#ch10"><b>10</b> The agents</a>
+  <a href="#ch11"><b>11</b> Practice lab</a>
+  <a href="#ch12"><b>12</b> Glossary and sources</a>
+</div></nav>
+
+<!-- CHAPTER 1 -->
+<section id="ch1"><div class="chh"><span class="chn">chapter 1</span><h2>The big picture</h2>
+<p class="lede">Valorant is two games stacked on top of each other: a gunfight game and a decision game. Most people only train the first one.</p></div>
+<div class="stack">
+<p>Two teams of five, one side attacks and carries the Spike, the other defends. First to 13 rounds wins. Every agent has abilities, but the guns work like a classic tactical shooter: <strong>your first bullet is your best bullet</strong>, and it is only accurate if you are standing still. That one rule explains almost everything in chapters 2 and 3.</p>
+<div class="grid">
+  <div class="note"><h4>Layer 1: the duel</h4><p>Aim, movement, crosshair placement. Wins you single fights. Trainable in 20 minutes a day.</p></div>
+  <div class="note m"><h4>Layer 2: the round</h4><p>Information, map control, trades, utility timing. Wins you rounds even when you aim the same as everyone else.</p></div>
+  <div class="note b"><h4>Layer 3: the match</h4><p>Economy, momentum, adapting, staying calm. Wins you the 13th round.</p></div>
+</div>
+
+<figure>
+<svg viewBox="0 0 680 190" role="img" aria-label="Shape of a round: buy, early information, mid-round decision, execute or plant, post-plant or retake"><g filter="url(#wob)">
+  <rect class="fy pen" x="12" y="50" width="116" height="70" rx="14"/><rect class="fm pen" x="142" y="50" width="130" height="70" rx="14"/><rect class="fb pen" x="286" y="50" width="130" height="70" rx="14"/><rect class="fp pen" x="430" y="50" width="116" height="70" rx="14"/><rect class="fl pen" x="560" y="50" width="108" height="70" rx="14"/>
+  <path class="pen" d="M130 85 H140 M274 85 H284 M418 85 H428 M548 85 H558" marker-end="url(#ah)"/>
+</g>
+<text class="md" x="70" y="80" text-anchor="middle">buy</text><text class="sm" x="70" y="102" text-anchor="middle">plan + money</text>
+<text class="md" x="207" y="80" text-anchor="middle">early</text><text class="sm" x="207" y="102" text-anchor="middle">get information</text>
+<text class="md" x="351" y="80" text-anchor="middle">mid-round</text><text class="sm" x="351" y="102" text-anchor="middle">decide + commit</text>
+<text class="md" x="488" y="80" text-anchor="middle">execute</text><text class="sm" x="488" y="102" text-anchor="middle">or hold a site</text>
+<text class="md" x="614" y="80" text-anchor="middle">after</text><text class="sm" x="614" y="102" text-anchor="middle">plant or retake</text>
+<text class="lg brush" x="12" y="30">the shape of one round</text>
+<text class="sm dim" x="12" y="160">Pros call the middle box &ldquo;mid-round&rdquo;. It is where the plan stops working and judgment starts.</text></svg>
+<figcaption>Every chapter below lives somewhere on this strip.</figcaption></figure>
+</div></section>
+
+<!-- CHAPTER 2 -->
+<section id="ch2"><div class="chh"><span class="chn">chapter 2</span><h2>Movement</h2>
+<p class="lede">In Valorant, moving and shooting fight each other. Movement is how you choose <em>when</em> to be accurate.</p></div>
+<div class="stack">
+<p>Moving makes your bullets spread. Standing still makes them land where you aim, but a still target is easy to hit. So good movement is a rhythm: <span class="hl">move, stop, shoot, move again.</span> Strafing means sliding sideways with A and D. One current guide points out that Valorant stops your character almost instantly when you release a key, which is different from CS2 and is why plain stop-and-shoot already works well.</p>
+
+<figure>
+<svg viewBox="0 0 680 150" role="img" aria-label="Loop: move, stop, shoot, move again"><g filter="url(#wob)">
+  <rect class="fb pen" x="14" y="30" width="132" height="58" rx="29"/><rect class="fy pen" x="190" y="30" width="132" height="58" rx="29"/><rect class="fp pen" x="366" y="30" width="132" height="58" rx="29"/><rect class="fm pen" x="542" y="30" width="124" height="58" rx="29"/>
+  <path class="pen" d="M148 59 H188 M324 59 H364 M500 59 H540" marker-end="url(#ah)"/>
+  <path class="hotpen" d="M604 92 C604 140 80 140 80 94" marker-end="url(#ah)"/>
+</g>
+<text class="lg brush" x="80" y="67" text-anchor="middle">move</text><text class="lg brush" x="256" y="67" text-anchor="middle">stop</text><text class="lg brush" x="432" y="67" text-anchor="middle">shoot</text><text class="lg brush" x="604" y="67" text-anchor="middle">move</text>
+<text class="sm" x="256" y="108" text-anchor="middle">wait for it</text>
+<text class="sm hot" style="fill:var(--hot)" x="340" y="136" text-anchor="middle">never shoot before you have fully stopped</text></svg>
+<figcaption>The most common mistake is firing a split second too early.</figcaption></figure>
+
+<div class="box"><h3>The Movement Error trick</h3>
+<p>Turn on <strong>Show Movement Error</strong> in Settings, Video, Interface. A little indicator around your crosshair shows when you are not truly still. Strafe in the Range, release the key, and only fire once the indicator disappears. This makes the invisible rule visible.</p></div>
+
+<h3>Movement states at a glance</h3>
+<div class="scroll-x"><table class="tbl"><thead><tr><th>State</th><th>Accuracy</th><th>Use it for</th></tr></thead><tbody>
+<tr><td>Standing still</td><td>best</td><td>every real duel</td></tr>
+<tr><td>Crouching</td><td>high, but slow and you cannot retreat</td><td>rare close fights (see the Bronze warning in chapter 9)</td></tr>
+<tr><td>Walking (shift)</td><td>good</td><td>quiet rotations, enemies cannot hear you</td></tr>
+<tr><td>Running</td><td>bad</td><td>repositioning only, never shooting</td></tr>
+<tr><td>In the air</td><td>very bad</td><td>positional jumps, never duels</td></tr>
+</tbody></table></div>
+
+<h3>The peeks</h3>
+<div class="grid">
+<figure><svg viewBox="0 0 220 220" role="img" aria-label="Jiggle peek top view"><g filter="url(#wob)">
+  <rect class="fink" x="98" y="20" width="16" height="120" rx="4"/>
+  <circle class="fb pen" cx="60" cy="176" r="12"/><circle class="fp pen" cx="170" cy="62" r="12"/>
+  <path class="pen2" d="M72 168 L158 70"/>
+  <path class="hotpen" d="M60 156 V132 M72 132 H98" marker-end="url(#ah)"/>
+</g><text class="md" x="14" y="16">jiggle peek</text><text class="sm" x="116" y="208" style="fill:var(--hot)">0.2 to 0.3 s</text></svg>
+<figcaption>Tap out, look, tap back. Gather info without a duel.</figcaption></figure>
+<figure><svg viewBox="0 0 220 220" role="img" aria-label="Shoulder peek top view"><g filter="url(#wob)">
+  <rect class="fink" x="98" y="20" width="16" height="120" rx="4"/>
+  <circle class="fb pen" cx="60" cy="176" r="12"/><circle class="fo pen" cx="170" cy="62" r="12"/>
+  <path class="pen2" d="M74 164 L160 68"/>
+  <path class="hotpen" d="M60 156 V120 M72 120 H128" marker-end="url(#ah)"/>
+</g><text class="md" x="14" y="16">shoulder peek</text><text class="sm" x="118" y="208" style="fill:var(--hot)">bait the Operator</text></svg>
+<figcaption>Show a bit more body to pull a sniper shot, then push while they re-scope.</figcaption></figure>
+<figure><svg viewBox="0 0 220 220" role="img" aria-label="Wide swing top view"><g filter="url(#wob)">
+  <rect class="fink" x="98" y="20" width="16" height="120" rx="4"/>
+  <circle class="fb pen" cx="60" cy="176" r="12"/><circle class="fp pen" cx="170" cy="62" r="12"/>
+  <path class="pen2" d="M74 160 L160 70"/>
+  <path class="hotpen" d="M60 156 C60 120 100 150 150 100" marker-end="url(#ah)"/>
+</g><text class="md" x="14" y="16">wide swing</text><text class="sm" x="116" y="208" style="fill:var(--hot)">commit, stop, shoot</text></svg>
+<figcaption>Go wide past the corner into where their crosshair is not.</figcaption></figure>
+</div>
+
+<div class="note l"><h4>Counter-strafing, honestly</h4><p>Counter-strafe means tapping the opposite key to stop even faster (moving right? tap A). It helps a little in Valorant, and it is essential in CS2. One guide suggests learning stop-and-shoot first and treating counter-strafe as a bonus until around Platinum or Diamond. Do not get stuck obsessing over it.</p></div>
+<p><strong>Do not jiggle</strong> into agents who can flash you on the peek (Breach, Skye), when the enemy already knows exactly where you are, or at spots with two angles looking at you. <strong>Do not shoulder peek</strong> against rifles, because there is no punish window.</p>
+</div></section>
+
+<!-- CHAPTER 3 -->
+<section id="ch3"><div class="chh"><span class="chn">chapter 3</span><h2>Crosshair placement</h2>
+<p class="lede">Aim is not only about your hand. It is about where your crosshair already is when the enemy appears.</p></div>
+<div class="stack">
+<p>Several guides call this the single most important aiming skill. Keep your crosshair at <span class="hl">head height</span>, near the centre of the screen, at the exact spot an enemy would step into. Then you only need a tiny horizontal correction instead of a big flick. Your first shot lands, you win, and you never needed amazing reflexes.</p>
+
+<figure>
+<svg viewBox="0 0 680 270" role="img" aria-label="Side view: crosshair travelling at head height, with too-low and too-high examples"><g filter="url(#wob)">
+  <path class="pen" d="M20 232 H660"/>
+  <circle class="fy pen" cx="560" cy="108" r="22"/><path class="pen" d="M560 130 V190 M560 146 L530 176 M560 146 L590 176 M560 190 L538 232 M560 190 L582 232"/>
+  <path class="hotpen" d="M60 108 H528" marker-end="url(#ah)"/>
+  <circle class="pen" cx="110" cy="108" r="13"/><path class="pen" d="M110 90 V99 M110 117 V126 M92 108 H101 M119 108 H128"/>
+  <path class="pen2" d="M60 214 H240"/><path class="pen2" d="M60 42 H240"/>
+</g>
+<text class="md" x="20" y="28">crosshair height is a line. Keep it on the head line.</text>
+<text class="sm" x="250" y="219">too low: you aim at the floor and must flick up</text>
+<text class="sm" x="250" y="47">too high: you aim at the sky and must flick down</text>
+<text class="sm" style="fill:var(--hot)" x="150" y="98">head line</text>
+<text class="sm dim" x="20" y="256">Tip: the line rises and falls with stairs and ledges, so re-check height whenever the floor changes.</text></svg>
+<figcaption>Original sketch. Your crosshair travels along an invisible head-height line as you walk.</figcaption></figure>
+
+<div class="grid">
+  <div class="box"><h4>Pre-aim the spot</h4><p>Before you turn a corner, aim where an enemy would most likely stand, not at the wall. Think about where people usually hold on that map and what the round situation suggests.</p></div>
+  <div class="box"><h4>Clear corners slowly</h4><p>Peek angles at a steady pace. Sprinting past an angle gives the enemy the first shot. Scope out corner by corner, with your feet planted when you fire.</p></div>
+  <div class="box"><h4>Merge angles</h4><p>Advanced idea: find a crosshair spot that covers two possible angles at once. It takes experimenting on each map, and it saves a lot of flicking.</p></div>
+  <div class="box"><h4>Play around their crosshair</h4><p>Enemies also have crosshairs. A jiggle or jump peek makes them adjust, then you swing into the place they were not looking. This turns placement from defence into offence.</p></div>
+</div>
+
+<div class="box"><h3>Crosshair and sensitivity, kept simple</h3>
+<ul class="dots"><li>Your crosshair should be <strong>simple, small, static and consistent</strong>. A static one does not change when you move or shoot, so your eyes learn one picture.</li>
+<li>Valorant is slower than many shooters, so a <strong>lower sensitivity</strong> is more forgiving. Most pros use 400 or 800 DPI. One guide puts typical pro eDPI (DPI times in-game sens) between 200 and 400.</li>
+<li>The first shot is the most accurate. Plan your fights around it, then burst or reset.</li></ul></div>
+
+<div class="note m"><h4>Trick: the Guardian teaches you</h4><p>The Guardian punishes body shots, so only head-height crosshair placement works. A few deathmatches with only the Guardian tend to improve placement when you switch back to rifles. Another habit from coaches: play a Range exercise with the Sheriff and Guardian on easy and medium bots.</p></div>
+</div></section>
+
+<!-- CHAPTER 4 -->
+<section id="ch4"><div class="chh"><span class="chn">chapter 4</span><h2>Game sense</h2>
+<p class="lede">Game sense is predicting what the enemy will do and being already there. It is built from small, learnable pieces.</p></div>
+<div class="stack">
+<figure>
+<svg viewBox="0 0 680 330" role="img" aria-label="Game sense mind map"><g filter="url(#wob)">
+  <path class="pen" d="M340 165 L140 60 M340 165 L340 40 M340 165 L540 60 M340 165 L140 270 M340 165 L340 292 M340 165 L540 270"/>
+  <ellipse class="fy pen" cx="340" cy="165" rx="86" ry="42"/>
+  <rect class="fb pen" x="62" y="38" width="156" height="46" rx="20"/><rect class="fm pen" x="262" y="14" width="156" height="46" rx="20"/><rect class="fp pen" x="462" y="38" width="156" height="46" rx="20"/>
+  <rect class="fl pen" x="62" y="246" width="156" height="46" rx="20"/><rect class="fo pen" x="262" y="268" width="156" height="46" rx="20"/><rect class="fb pen" x="462" y="246" width="156" height="46" rx="20"/>
+</g>
+<text class="lg brush" x="340" y="172" text-anchor="middle">game sense</text>
+<text class="md" x="140" y="67" text-anchor="middle">sound</text><text class="md" x="340" y="43" text-anchor="middle">minimap</text><text class="md" x="540" y="67" text-anchor="middle">timings</text>
+<text class="md" x="140" y="275" text-anchor="middle">utility cooldowns</text><text class="md" x="340" y="297" text-anchor="middle">economy reads</text><text class="md" x="540" y="275" text-anchor="middle">enemy patterns</text></svg>
+<figcaption>Six inputs. Train one at a time.</figcaption></figure>
+
+<div class="grid">
+  <div class="box"><h4>Sound</h4><p>Footsteps, ability sounds and reloads tell you where people are and what they spent. Walking silently when you should be hearing is a habit worth building.</p></div>
+  <div class="box"><h4>Minimap</h4><p>Glance at it constantly. It shows where teammates are, which sites are empty and where the last enemy was spotted.</p></div>
+  <div class="box"><h4>Timings</h4><p>How long does a rotation take from A to B on this map? How long does that smoke last? Knowing numbers turns guesses into plans.</p></div>
+  <div class="box"><h4>Utility cooldowns</h4><p>If you know their flash, drone or wall was just used, that peek is safer now. Learn what every agent can do, then track what they already spent.</p></div>
+  <div class="box"><h4>Economy reads</h4><p>If their bank looks thin, expect an eco or a force. Adjust your buy and your positions accordingly.</p></div>
+  <div class="box"><h4>Patterns</h4><p>Players repeat. If they hit B twice in a row, set a trap or stack the third round. Write one pattern down per match.</p></div>
+</div>
+
+<div class="note b"><h4>How to grow it</h4><ul class="dots">
+<li><strong>Watch pros and high-rank streamers</strong>, and ask why this smoke happened now. One guide even says high-elo streamers help more, because pro games are fully coordinated and your ranked games are not.</li>
+<li><strong>Review your own replays.</strong> A coaching site claims fewer than one in ten ranked players below Diamond review consistently, and calls it the highest-leverage habit. That is a marketing claim, but the logic holds.</li>
+<li>Keep a simple notes file of lessons and re-read it weekly to spot patterns in your mistakes.</li></ul></div>
+</div></section>
+
+<!-- CHAPTER 5 -->
+<section id="ch5"><div class="chh"><span class="chn">chapter 5</span><h2>Strategy</h2>
+<p class="lede">Strategy is the plan for the round. Tactics are the small moves inside it. Here are the words and the ideas, in plain language.</p></div>
+<div class="stack">
+<div class="grid">
+  <div class="box"><h4><span class="hl">Map control</span></h4><p>Owning space on the map. More space means more options and fewer surprises for you.</p></div>
+  <div class="box"><h4><span class="hl m">Default</span></h4><p>Your safe opening shape. You spread out, take small bits of space, gather information, and decide after seeing what happens.</p></div>
+  <div class="box"><h4><span class="hl b">Execute</span></h4><p>A planned site hit using several abilities at once. You commit together.</p></div>
+  <div class="box"><h4><span class="hl p">Fake</span></h4><p>Acting like you are going to one place so the enemy rotates, then going somewhere else.</p></div>
+  <div class="box"><h4><span class="hl l">Tempo</span></h4><p>The speed of the round. Slowing down, or suddenly speeding up, is a weapon.</p></div>
+  <div class="box"><h4><span class="hl">Crossfire</span></h4><p>Two defenders covering the same kill zone from different angles. One dies, the other trades.</p></div>
+</div>
+
+<h3>Trading and spacing</h3>
+<p>A <strong>trade</strong> means you kill the enemy who just killed your teammate. One coaching rule of thumb: if you cannot join the fight within about one second, you are close but not in trade range. Do not stand in the same line as your teammate. Stand where you see the same danger from a second angle.</p>
+<figure>
+<svg viewBox="0 0 680 250" role="img" aria-label="Bad spacing versus trade spacing, top view"><g filter="url(#wob)">
+  <rect class="fink" x="150" y="60" width="18" height="100" rx="4"/><rect class="fink" x="490" y="60" width="18" height="100" rx="4"/>
+  <circle class="fb pen" cx="108" cy="150" r="11"/><circle class="fb pen" cx="93" cy="168" r="11"/><circle class="fp pen" cx="238" cy="96" r="11"/>
+  <path class="pen2" d="M226 100 L112 144"/><path class="pen2" d="M226 104 L98 160"/>
+  <circle class="fb pen" cx="448" cy="150" r="11"/><circle class="fm pen" cx="418" cy="206" r="11"/><circle class="fp pen" cx="578" cy="96" r="11"/>
+  <path class="hotpen" d="M566 100 L460 144"/><path class="pen2" d="M566 106 L430 200"/>
+</g>
+<text class="md" x="20" y="28">too close: one enemy spray hits both</text><text class="md" x="360" y="28">trade range: second angle, ready in 1 s</text>
+<text class="sm dim" x="20" y="238">blue = your team, pink = enemy. Original sketch, not a real map.</text></svg>
+<figcaption>Same corner, two stances. The right side makes the enemy fight two angles, not one stack.</figcaption></figure>
+
+<h3>Money is strategy</h3>
+<div class="scroll-x"><table class="tbl"><thead><tr><th>Buy</th><th>What it looks like</th><th>When</th></tr></thead><tbody>
+<tr><td>Full buy</td><td>Rifle, armour, abilities</td><td>When most of the team can afford it</td></tr>
+<tr><td>Half / force</td><td>SMGs, pistols, some armour and utility</td><td>To disrupt them or after a lost pistol, with team agreement</td></tr>
+<tr><td>Eco / save</td><td>Pistol and few abilities</td><td>When saving gives you a full buy next round</td></tr>
+<tr><td>Full eco</td><td>Nothing</td><td>When even one more round of spending would hurt</td></tr>
+</tbody></table></div>
+<ul class="dots"><li>Match your team. If most people save and one fully buys, that person usually dies for nothing.</li>
+<li>If you have extra credits, buy a weapon for a teammate who is short.</li>
+<li>Repeated force buys spread your money over several weak rounds. Sometimes one clean eco is better.</li>
+<li>Check their money too. A thin enemy bank tells you what is coming.</li></ul>
+
+<h3>Attack and defence in one list each</h3>
+<div class="grid2">
+  <div class="note m"><h4>On attack</h4><ul class="dots"><li>Take map control first, then choose a site.</li><li>Use fakes and rotations to move the defenders.</li><li>Commit with your team, never bait for stats.</li><li>Plan the post-plant before you plant.</li></ul></div>
+  <div class="note b"><h4>On defence</h4><ul class="dots"><li>Do not fight alone or give free kills.</li><li>Use crossfires and one off-angle at a time (off-angles are good for one-versus-one but risky if they trade you).</li><li>Anchor smart, rotate only on real information.</li><li>Sometimes push for information if you have none.</li></ul></div>
+</div>
+<p>Team make-up: pick agents that fit together, ideally one of each role. Pros sometimes skip a role or double up. One analyst notes that double controller or double initiator can be very strong in ranked as well.</p>
+</div></section>
+
+<!-- CHAPTER 6 -->
+<section id="ch6"><div class="chh"><span class="chn">chapter 6</span><h2>War mindset</h2>
+<p class="lede">An old idea from strategy books: the best fights are the ones you set up so well that they barely feel like fights.</p></div>
+<div class="stack">
+<p>These are my own plain-language translations of classic war thinking into Valorant. They are habits, not slogans.</p>
+<div class="grid">
+  <div class="box"><h4>1. Win the information war</h4><p>Do not commit blind. Drones, sounds, jiggle peeks and teammates&rsquo; calls are your scouts. A round decided by information rarely feels hard.</p></div>
+  <div class="box"><h4>2. Fight where you are strong</h4><p>Make every duel a one-versus-one in your favour: behind cover, with a second angle ready, using utility to block other lines. Never take on several enemies at once if you can avoid it.</p></div>
+  <div class="box"><h4>3. Own the tempo</h4><p>If they expect speed, slow down. If they expect a slow default, burst. Changing pace breaks their rhythm.</p></div>
+  <div class="box"><h4>4. Deceive</h4><p>A fake smoke, footsteps, a sound cue, a rotation that is not real. Make them spend utility and attention on the wrong place.</p></div>
+  <div class="box"><h4>5. Lose the battle to win the war</h4><p>A saved rifle is a weapon for the next round. A bad retake costs you the round and the gun. Choose battles by what they cost you in the match.</p></div>
+  <div class="box"><h4>6. Know yourself</h4><p>Your tilt, your habits, your default mistakes. A calm player who knows their own weak spots beats a talented player who does not.</p></div>
+  <div class="box"><h4>7. Keep morale up</h4><p>It is a race to 13, so momentum matters. TenZ&rsquo;s advice is to stay positive, even after a run of lost rounds.</p></div>
+  <div class="box"><h4>8. Adapt</h4><p>One analyst says the gap between Ascendant and Radiant is often adaptation more than raw mechanics. If the same thing fails twice, change it.</p></div>
+</div>
+
+<div class="note p"><h4>Tilt rules that actually help</h4><ul class="dots">
+<li><strong>Two-loss rule:</strong> after two ranked losses in a row, close the game. A coaching source calls it more valuable than playing on while angry.</li>
+<li>Do not queue straight after a frustrating loss. Take a short break first.</li>
+<li>Tired, hungry, dehydrated players tilt faster. Check yourself before queuing.</li>
+<li>Do not queue just to reach a number. That is the highest-risk reason to queue.</li>
+<li>Avoid blaming teammates. Ask what you could have done to cover their weak spot.</li></ul></div>
+</div></section>
+
+<!-- CHAPTER 7 -->
+<section id="ch7"><div class="chh"><span class="chn">chapter 7</span><h2>Decisions and judgment</h2>
+<p class="lede">Judgment is making good decisions when you do not have all the facts. You will never have all the facts in Valorant.</p></div>
+<div class="stack">
+<h3>The five-step loop</h3>
+<div class="grid">
+  <div class="note"><h4>1. Scan</h4><p>What do I <em>know</em> (score, money, who is alive, what was used, what I heard)? What am I only guessing?</p></div>
+  <div class="note m"><h4>2. Options</h4><p>Name at least two ways to play the next ten seconds. If you only see one, you are not deciding, you are reacting.</p></div>
+  <div class="note b"><h4>3. Price</h4><p>What does being wrong cost? A jiggle peek costs nearly nothing. A rotation you cannot undo costs a lot.</p></div>
+  <div class="note p"><h4>4. Commit</h4><p>Pick one and say a trigger: &ldquo;If I see the Spike, we rotate.&rdquo; Triggers stop you from dithering.</p></div>
+  <div class="note l"><h4>5. Review</h4><p>After the round, ask if the <em>decision</em> was good, separately from whether it worked.</p></div>
+</div>
+
+<h3>Good decision, bad outcome?</h3>
+<figure>
+<svg viewBox="0 0 680 280" role="img" aria-label="Two by two grid of decision quality versus outcome"><g filter="url(#wob)">
+  <rect class="fm pen" x="170" y="40" width="240" height="100" rx="12"/><rect class="fy pen" x="420" y="40" width="240" height="100" rx="12"/>
+  <rect class="fp pen" x="170" y="150" width="240" height="100" rx="12"/><rect class="fb pen" x="420" y="150" width="240" height="100" rx="12"/></g>
+<text class="md" x="290" y="30" text-anchor="middle">outcome: won</text><text class="md" x="540" y="30" text-anchor="middle">outcome: lost</text>
+<text class="md" x="160" y="96" text-anchor="end">good call</text><text class="md" x="160" y="206" text-anchor="end">bad call</text>
+<text class="md" x="290" y="86" text-anchor="middle">earned</text><text class="sm" x="290" y="108" text-anchor="middle">repeat this</text>
+<text class="md" x="540" y="86" text-anchor="middle">unlucky</text><text class="sm" x="540" y="108" text-anchor="middle">keep doing it</text>
+<text class="md" x="290" y="196" text-anchor="middle">lucky</text><text class="sm" x="290" y="218" text-anchor="middle">dangerous, fix it</text>
+<text class="md" x="540" y="196" text-anchor="middle">deserved</text><text class="sm" x="540" y="218" text-anchor="middle">learn the lesson</text></svg>
+<figcaption>Judging yourself by results alone makes you copy lucky mistakes and drop good ideas.</figcaption></figure>
+
+<h3>Retake or save?</h3>
+<p>One of the most expensive decisions in the game. The right answer depends on numbers, enemy positions, available ultimates and utility, time on the Spike, and your economy. Treat this as a rule of thumb, not a law.</p>
+<figure>
+<svg viewBox="0 0 680 330" role="img" aria-label="Flow chart for deciding to retake or save"><g filter="url(#wob)">
+  <rect class="fy pen" x="230" y="12" width="220" height="46" rx="14"/>
+  <path class="pen" d="M340 58 V82" marker-end="url(#ah)"/>
+  <path class="fb pen" d="M340 84 L470 130 L340 176 L210 130 Z"/>
+  <path class="pen" d="M470 130 H560" marker-end="url(#ah)"/><path class="pen" d="M340 176 V212" marker-end="url(#ah)"/>
+  <rect class="fp pen" x="560" y="106" width="108" height="48" rx="14"/>
+  <path class="fb pen" d="M340 214 L440 250 L340 286 L240 250 Z"/>
+  <path class="pen" d="M440 250 H500" marker-end="url(#ah)"/><path class="pen" d="M240 250 H180" marker-end="url(#ah)"/>
+  <rect class="fm pen" x="504" y="228" width="164" height="44" rx="14"/><rect class="fp pen" x="12" y="228" width="168" height="44" rx="14"/>
+</g>
+<text class="md" x="340" y="40" text-anchor="middle">Spike down. Count.</text>
+<text class="sm" x="340" y="124" text-anchor="middle">Do we have the numbers</text><text class="sm" x="340" y="144" text-anchor="middle">or a big utility edge?</text>
+<text class="sm" x="516" y="122" text-anchor="middle">no</text><text class="sm" x="352" y="198">yes</text>
+<text class="md" x="614" y="136" text-anchor="middle">save guns</text>
+<text class="sm" x="340" y="246" text-anchor="middle">Time to group</text><text class="sm" x="340" y="266" text-anchor="middle">and hit together?</text>
+<text class="sm" x="470" y="244" text-anchor="middle">yes</text><text class="sm" x="210" y="244" text-anchor="middle">no</text>
+<text class="md" x="586" y="256" text-anchor="middle">retake together</text><text class="md" x="96" y="256" text-anchor="middle">save guns</text>
+<text class="sm dim" x="12" y="316">Also weigh: what you lose if it fails, and whether a saved weapon makes next round winnable.</text></svg>
+<figcaption>Rule of thumb. If you retake, share the timing out loud and swing together.</figcaption></figure>
+
+<div class="grid2">
+  <div class="box"><h4>Solo queue comms that help</h4><ul class="dots"><li>Buy phase: say the plan and the money call.</li><li>First 10 to 15 seconds: set the shape. &ldquo;Default, hit B at 1:10.&rdquo;</li><li>Decision window: a clear commit or pivot.</li><li>Callouts: agent plus place (&ldquo;Raze tag 100 mid, Reyna back B&rdquo;), not just numbers.</li><li>Do not micromanage teammates. Give info, then trust them.</li></ul></div>
+  <div class="box"><h4>Clutch judgment</h4><ul class="dots"><li>Treat every unchecked spot as a threat, but do not waste time over-clearing.</li><li>Use cover and smokes so you only fight one player.</li><li>Never peek where two people can shoot you at the same time.</li><li>Move from cover to cover. Use height (Jett, Omen) when you can.</li><li>Expect off-angles from smart enemies, since one-versus-one means no trade.</li></ul></div>
+</div>
+</div></section>
+
+<!-- CHAPTER 8 -->
+<section id="ch8"><div class="chh"><span class="chn">chapter 8</span><h2>Radiant and pro wisdom</h2>
+<p class="lede">What players at the top say, boiled down. I paraphrase everything and link the sources at the end.</p></div>
+<div class="stack">
+<div class="grid">
+<div class="note"><h4>TenZ&rsquo;s ten, short version</h4><ol class="steps">
+<li>Learn two or three agents, not all, and not only one.</li>
+<li>Talk composition with your team.</li>
+<li>Try to win your unrated games first, since they shape your start.</li>
+<li>Do not solo queue if you can avoid it.</li>
+<li>On attack, communicate and do not bait for stats.</li>
+<li>On defence, avoid careless deaths.</li>
+<li>Go for impact kills, the ones that win rounds.</li>
+<li>Stay positive.</li>
+<li>Study the pros.</li>
+<li>Do not queue ranked while tilted.</li></ol></div>
+<div class="note m"><h4>Pro tips on utility</h4><ul class="dots"><li>Psalm described using Sova&rsquo;s Shock Darts in three ways: displace people off an angle, deal damage on set post-plant retake spots, and punish an attacker execute on defence.</li><li>Subroza suggested following the Sova drone on attack and trading off it. Defenders fear it more when Sova has his ultimate.</li></ul></div>
+<div class="note b"><h4>Demon1&rsquo;s aim routine</h4><p>A mix of speed, tracking, accuracy and precision work in an aim trainer, then Valorant itself. The big message is consistency: do it often, do it the same way.</p></div>
+<div class="note p"><h4>What IGLs say</h4><p>Pros like FNS argue that a good in-game leader needs strong mid-round calling and solid defaults. Calling the same hit every round, without defaults, tends to fall behind.</p></div>
+<div class="note l"><h4>Radiant-level communication</h4><p>Short, precise, and kind. Name the agent and the place. Warn about dead-teammate info (&ldquo;careful, Garage&rdquo;). Do not micromanage.</p></div>
+<div class="note"><h4>Setup basics from Red Bull&rsquo;s aim guide</h4><p>Find a low, comfortable sensitivity. A static crosshair. Sit still when you shoot. Treat crosshair placement as the first job of aim.</p></div>
+</div>
+<p class="asof">Radiant is a ladder badge, not a style. Some Radiants are calm placement players, others flick. The shared trait is habits that survive pressure: head-height crosshair, clean stops before shooting, and tidy decisions.</p>
+</div></section>
+
+<!-- CHAPTER 9 -->
+<section id="ch9"><div class="chh"><span class="chn">chapter 9</span><h2>Rank by rank</h2>
+<p class="lede">Nine tiers, from Iron to Radiant. Open each one to see how people play there, the usual mistakes, and the one thing to fix.</p></div>
+<div class="stack">
+<figure>
+<svg viewBox="0 -10 680 380" role="img" aria-label="Bar chart of the share of ranked players in each tier, June 2026"><g filter="url(#wob)">
+  <path class="pen" d="M112 20 V350"/></g>
+  <g class="pen2" style="stroke-dasharray:3 8"><path d="M132 20 V350"/></g>
+  <g id="rankbars"></g>
+  <text class="lg brush" x="12" y="14">share of ranked players per tier</text>
+</svg>
+<figcaption>Gold is both the most common tier and the median (Gold II). Immortal and above is under one in a hundred. Source: valking.gg snapshot, 7 June 2026; Radiant from Esports Tales, Sept 2026. Trackers differ a little.</figcaption></figure>
+
+<div class="ranks">
+<details class="rk"><summary><h3>Iron</h3><span class="pct">about 6.5%</span></summary><div class="body">
+<div><h4>Style</h4><p>Learning the buttons. Running and shooting, random positions, utility used just because it exists.</p></div>
+<div><h4>Fix</h4><p>Understand how guns work, learn the maps, and try every agent in the Range. Then you will leave Iron without much effort.</p></div></div></details>
+
+<details class="rk"><summary><h3>Bronze</h3><span class="pct">about 15.1%</span></summary><div class="body">
+<div><h4>Style</h4><p>Crouch-spraying and run-and-gun, with the crosshair on the floor.</p></div>
+<div><h4>Fix</h4><p>Stop crouch-spraying. It feels accurate, but you commit to the fight and cannot retreat. Unbind crouch in deathmatch and keep the crosshair at head height.</p></div></div></details>
+
+<details class="rk"><summary><h3>Silver</h3><span class="pct">about 19.4%</span></summary><div class="body">
+<div><h4>Style</h4><p>Lots of spraying and aimless shooting. Utility is used weakly. Aim differences between players are still big.</p></div>
+<div><h4>Fix</h4><p>Be patient and aim for heads. Pick a couple of agents and learn their setups and lineups. Good utility wins rounds here.</p></div></div></details>
+
+<details class="rk"><summary><h3>Gold</h3><span class="pct">about 22.4%, the most common tier</span></summary><div class="body">
+<div><h4>Style</h4><p>Decent to good aim, but players are predictable and teamwork is weak.</p></div>
+<div><h4>Fix</h4><p>Play smart: cheeky flanks, trades, and learn the economy. Mastering a sentinel can lock down a site for your team.</p></div></div></details>
+
+<details class="rk"><summary><h3>Platinum</h3><span class="pct">about 18.6%</span></summary><div class="body">
+<div><h4>Style</h4><p>For many, the start of elo hell. Overly aggressive players get read easily.</p></div>
+<div><h4>Fix</h4><p>Play patiently and communicate properly (ask for a flash, call smokes). Start thinking about map control, fakes and rotations. Playing with friends helps.</p></div></div></details>
+
+<details class="rk"><summary><h3>Diamond</h3><span class="pct">about 12.0%</span></summary><div class="body">
+<div><h4>Style</h4><p>Good aim, game sense, movement and utility. Competitive lobbies.</p></div>
+<div><h4>Fix</h4><p>Team play. Combine utility, trade teammates, call information. Play to win rounds, not for the scoreboard. If your aim lags, add an aim routine.</p></div></div></details>
+
+<details class="rk"><summary><h3>Ascendant</h3><span class="pct">about 5.1%</span></summary><div class="body">
+<div><h4>Style</h4><p>Everyone is grinding for Immortal, so wins feel harder.</p></div>
+<div><h4>Fix</h4><p>Fix your bad habits and become a complete player. Review your own games and settle on a role: smoker, entry or sentinel.</p></div></div></details>
+
+<details class="rk"><summary><h3>Immortal</h3><span class="pct">about 0.9%</span></summary><div class="body">
+<div><h4>Style</h4><p>Few weaknesses. Players already know what they lack.</p></div>
+<div><h4>Fix</h4><p>Find your flaws and fix them. Reaching Radiant is mostly a long grind of this loop.</p></div></div></details>
+
+<details class="rk"><summary><h3>Radiant</h3><span class="pct">about 0.05%, the top few hundred per region</span></summary><div class="body">
+<div><h4>Style</h4><p>Adaptation, clean mechanics under pressure, tidy decisions and strong communication.</p></div>
+<div><h4>Fix</h4><p>Keep the habits from every earlier tier. At this level nobody has an easy rank to hide behind.</p></div></div></details>
+</div>
+<p class="asof">Rank rules for teaming up (from PC Gamer): Iron and Bronze can queue with players up to Silver. Silver up to Gold. Gold up to Platinum. From Platinum up, teammates must be exactly one tier apart.</p>
+</div></section>
+
+<!-- CHAPTER 10 -->
+<section id="ch10"><div class="chh"><span class="chn">chapter 10</span><h2>The agents</h2>
+<p class="lede">Thirty playable agents as of Hush, the ninth Duelist, who arrived in patch 13.09 on 27 October 2026. Every agent belongs to one of four roles. Inside each role, I group them by how they actually play.</p></div>
+<div class="stack">
+<figure>
+<svg viewBox="0 0 680 220" role="img" aria-label="Number of agents per role: 9 duelists, 7 initiators, 7 controllers, 7 sentinels"><g filter="url(#wob)">
+  <rect style="fill:var(--duel-bg)" class="pen" x="120" y="36" width="405" height="34" rx="10"/>
+  <rect style="fill:var(--init-bg)" class="pen" x="120" y="82" width="315" height="34" rx="10"/>
+  <rect style="fill:var(--ctrl-bg)" class="pen" x="120" y="128" width="315" height="34" rx="10"/>
+  <rect style="fill:var(--sent-bg)" class="pen" x="120" y="174" width="315" height="34" rx="10"/></g>
+<text class="lg brush" x="12" y="20">agents per role</text>
+<text class="md" x="110" y="60" text-anchor="end">Duelist</text><text class="md" x="110" y="106" text-anchor="end">Initiator</text><text class="md" x="110" y="152" text-anchor="end">Controller</text><text class="md" x="110" y="198" text-anchor="end">Sentinel</text>
+<text class="md" x="535" y="60">9</text><text class="md" x="445" y="106">7</text><text class="md" x="445" y="152">7</text><text class="md" x="445" y="198">7</text></svg>
+<figcaption>Duelist is the biggest role. Hush made it nine.</figcaption></figure>
+
+<div class="grid2">
+  <div class="rolecard duel"><h4>Duelist</h4><p>The entry team. They make space and start fights. Think: first to move, first to be seen.</p>
+  <p class="sc"><strong>Subclasses:</strong> <b>Space-takers</b> who dash or fly into site (Jett, Raze, Waylay). <b>Flash entry</b> who blind then go (Phoenix, Yoru, Neon). <b>Self-sufficient fraggers</b> who win fights alone and heal from kills (Reyna, Iso). <b>Precision / displacement</b> (Hush), who moves enemies and herself.</p></div>
+  <div class="rolecard init"><h4>Initiator</h4><p>The information and set-up team. They find enemies, flush them out and create openings for entries.</p>
+  <p class="sc"><strong>Subclasses:</strong> <b>Recon</b> (Sova, Fade, Skye in part). <b>Flash and stun support</b> (Breach, Skye, KAY/O, Gekko). <b>Anti-utility</b> (KAY/O). <b>Explosive flushers</b> who punish hiding (Tejo, Breach).</p></div>
+  <div class="rolecard ctrl"><h4>Controller</h4><p>The smoke and map control team. They cut sightlines so the team can take or hold space.</p>
+  <p class="sc"><strong>Subclasses:</strong> <b>Global smokers</b> who place smokes from the map (Brimstone, Astra, Clove, Miks). <b>On-body smokers</b> who smoke from where they stand (Omen, Harbor). <b>Wall / zone controllers</b> (Viper, Harbor). <b>Support controller</b> who also heals and buffs (Miks).</p></div>
+  <div class="rolecard sent"><h4>Sentinel</h4><p>The lockdown team. They hold sites, watch flanks and punish people who push the wrong way.</p>
+  <p class="sc"><strong>Subclasses:</strong> <b>Setup and trap</b> (Killjoy, Cypher, Deadlock, Vyse). <b>Healer and wall</b> (Sage). <b>Mobile or aggressive</b> who fight more than they sit (Chamber, Veto).</p></div>
+</div>
+<p class="asof">Roles are Riot&rsquo;s official labels. Subclasses are the community&rsquo;s shorthand, and they overlap. Riot&rsquo;s own designers use &ldquo;space-taking duelist&rdquo; for Jett, Raze and Waylay. Clove is listed as a Controller but plays like a Duelist or Initiator, Harbor is often mistaken for an Initiator, and Veto sits in Sentinel but plays aggressively.</p>
+
+<div class="note"><h4>New in 13.09: two buff words</h4><p><strong>Haste</strong> means a movement speed boost, as opposed to a Combat Stim, which boosts fire rate, equip, reload and recovery. <strong>Snapshot</strong> is a still-image silhouette reveal debuff, like Cypher&rsquo;s Spycam and Neural Theft. You will see these words in the new ability tooltips.</p></div>
+
+<div id="agents-top" class="tabs" role="group" aria-label="Filter agents by role"></div>
+<div id="agents" class="agents"></div>
+<p class="asof">Difficulty labels come from one site&rsquo;s roster table (esports.gg), so read them as a rough guide, and other sites rate some agents differently. Hush is not rated. Her kit details come from launch coverage, so check the in-game text for exact numbers.</p>
+</div></section>
+
+<!-- CHAPTER 11 -->
+<section id="ch11"><div class="chh"><span class="chn">chapter 11</span><h2>Practice lab</h2>
+<p class="lede">Repeatable actions beat inspiration. These are small, specific, and each has a finish line so you know when you did it.</p></div>
+<div class="stack">
+
+<h3>The 20-minute warm-up</h3>
+<div class="scroll-x"><table class="tbl"><thead><tr><th>Minutes</th><th>Where</th><th>What</th><th>Pass mark</th></tr></thead><tbody>
+<tr><td>0 to 5</td><td>The Range</td><td>Movement Error on. Strafe at bots, stop, shoot one bullet, repeat.</td><td>20 shots in a row with the indicator gone</td></tr>
+<tr><td>5 to 10</td><td>Range corners</td><td>Jiggle peek a corner, see the bot, stop, shoot, return.</td><td>exposure around 0.3 s; never fire while moving</td></tr>
+<tr><td>10 to 20</td><td>Deathmatch</td><td>Stop-shoot in every duel and keep the crosshair at head height.</td><td>you can say where your crosshair was after each death</td></tr>
+</tbody></table></div>
+<p class="asof">Pass marks are my suggestions. The structure follows a published beginner movement plan.</p>
+
+<h3>Ten reps you can repeat</h3>
+<div class="grid">
+  <div class="box"><h4>1. Stop-shoot rep</h4><p>Strafe, stop until Movement Error is gone, fire one bullet. 20 in a row.</p></div>
+  <div class="box"><h4>2. Corner walk</h4><p>In a custom game, walk one map and note what sits at head height at every corner. One map per day.</p></div>
+  <div class="box"><h4>3. Jiggle ladder</h4><p>Ten short jiggles at each of five angles. Vary the rhythm so you are not predictable.</p></div>
+  <div class="box"><h4>4. Guardian deathmatch</h4><p>One match with only the Guardian. Count headshots, not kills.</p></div>
+  <div class="box"><h4>5. No-crouch deathmatch</h4><p>Unbind crouch for a match. Notice how you survive without it.</p></div>
+  <div class="box"><h4>6. Pre-aim path</h4><p>Choose a route on a map. Pre-aim each common spot as you move. Repeat five times.</p></div>
+  <div class="box"><h4>7. Call it first</h4><p>Say aloud where you think the enemy is before you peek. Check yourself afterwards.</p></div>
+  <div class="box"><h4>8. Trade drill</h4><p>With a friend: one enters, one trades. Practise the one-second window until it feels easy.</p></div>
+  <div class="box"><h4>9. Three lineups</h4><p>Pick one agent and one map. Learn three setups or lineups and repeat each five times.</p></div>
+  <div class="box"><h4>10. Death review</h4><p>After each match, watch one death and answer: what did I know, what did I assume, what would I change?</p></div>
+</div>
+
+<h3>A simple week</h3>
+<div class="scroll-x"><table class="tbl"><thead><tr><th>Day</th><th>Focus</th></tr></thead><tbody>
+<tr><td>Mon</td><td>Warm-up, then a few ranked games. Review one death.</td></tr>
+<tr><td>Tue</td><td>Warm-up, Guardian deathmatch, corner walk on one map.</td></tr>
+<tr><td>Wed</td><td>Warm-up, ranked. Practise &ldquo;call it first&rdquo;.</td></tr>
+<tr><td>Thu</td><td>Lineups for one agent, trade drill if you have a friend.</td></tr>
+<tr><td>Fri</td><td>Warm-up, ranked with the two-loss rule on.</td></tr>
+<tr><td>Sat</td><td>Watch a pro or Radiant stream. Write down three decisions you would not have made.</td></tr>
+<tr><td>Sun</td><td>Rest, or review replays and update your notes file.</td></tr>
+</tbody></table></div>
+
+<div class="grid2">
+  <div class="note m"><h4>Before every round</h4><ul class="dots"><li>What is the money call?</li><li>What is our shape for the first ten seconds?</li><li>What will I do if I get information early?</li></ul></div>
+  <div class="note b"><h4>During the round</h4><ul class="dots"><li>Head-height crosshair on every step.</li><li>Stop before shooting.</li><li>Check the minimap each time you pause.</li><li>Say one useful callout.</li></ul></div>
+  <div class="note p"><h4>After the round</h4><ul class="dots"><li>What did I know that I ignored?</li><li>Was it a good call or just a good result?</li><li>One thing for next round only.</li></ul></div>
+  <div class="note l"><h4>Session rules</h4><ul class="dots"><li>Warm up before ranked.</li><li>Two losses in a row, close the game.</li><li>Eat, drink, then queue.</li><li>Set a game limit before you start.</li></ul></div>
+</div>
+
+<div class="box"><h3>This week&rsquo;s reps</h3>
+<p class="asof">Tick as you go. Your ticks are saved in this browser only.</p>
+<div class="check" id="checks">
+  <label><input type="checkbox" data-k="r1"><span>Stop-shoot rep, 20 in a row</span></label>
+  <label><input type="checkbox" data-k="r2"><span>Corner walk on one map</span></label>
+  <label><input type="checkbox" data-k="r3"><span>Jiggle ladder, five angles</span></label>
+  <label><input type="checkbox" data-k="r4"><span>Guardian deathmatch</span></label>
+  <label><input type="checkbox" data-k="r5"><span>No-crouch deathmatch</span></label>
+  <label><input type="checkbox" data-k="r6"><span>Pre-aim path, five rounds</span></label>
+  <label><input type="checkbox" data-k="r7"><span>Call it first, three games</span></label>
+  <label><input type="checkbox" data-k="r8"><span>Trade drill</span></label>
+  <label><input type="checkbox" data-k="r9"><span>Three lineups, five reps each</span></label>
+  <label><input type="checkbox" data-k="r10"><span>Death review after each match</span></label>
+</div>
+<div class="btnrow"><button class="btn" type="button" id="resetchecks">Clear all ticks</button></div></div>
+</div></section>
+
+<!-- CHAPTER 12 -->
+<section id="ch12"><div class="chh"><span class="chn">chapter 12</span><h2>Glossary and sources</h2></div>
+<div class="stack">
+<div class="scroll-x"><table class="tbl"><thead><tr><th>Word</th><th>Meaning</th></tr></thead><tbody>
+<tr><td>Ace</td><td>One player kills all five enemies in a round.</td></tr>
+<tr><td>Anchor</td><td>The defender who holds a site alone and delays.</td></tr>
+<tr><td>Clutch</td><td>Winning when you are the last one alive.</td></tr>
+<tr><td>Eco / force</td><td>Saving money vs buying with whatever you have.</td></tr>
+<tr><td>Elo hell</td><td>The feeling of being stuck because of teammates. Fix: improve what you control.</td></tr>
+<tr><td>Haste / Snapshot</td><td>The new buff and debuff words from patch 13.09.</td></tr>
+<tr><td>IGL</td><td>In-game leader, who makes the calls.</td></tr>
+<tr><td>Lurk</td><td>Playing alone away from the team to catch rotations or flanks.</td></tr>
+<tr><td>Mid-round</td><td>Deciding on the fly after the plan meets reality.</td></tr>
+<tr><td>Off-angle</td><td>An unexpected position. Strong for one fight, risky otherwise.</td></tr>
+<tr><td>Post-plant</td><td>Defending the Spike after you have planted it.</td></tr>
+<tr><td>Retake</td><td>Defenders taking a planted site back.</td></tr>
+<tr><td>Rotate</td><td>Moving from one site to the other.</td></tr>
+<tr><td>Tilt</td><td>When frustration makes your decisions and aim worse.</td></tr>
+<tr><td>Trade / refrag</td><td>Killing the player who just killed your teammate.</td></tr>
+<tr><td>VOD</td><td>A recording of your match, for review.</td></tr>
+</tbody></table></div>
+
+<h3>Sources</h3>
+<ul class="src dots">
+<li>Agents and roles: <a href="https://esports.gg/guides/valorant/entry-frag-part-four-a-rundown-of-all-valorant-agents">esports.gg roster table</a>, <a href="https://www.strafe.com/articles/read/valorant-agent-roles-guide/">Strafe role guide (30 agents)</a>, <a href="https://dotesports.com/valorant/news/all-valorant-classes-explained">Dot Esports class guide</a>, <a href="https://dignitas.gg/articles/building-the-perfect-team-fundamentals-of-agent-compositions-in-valorant">Dignitas on sub-types</a></li>
+<li>Hush: <a href="https://www.redbull.com/int-en/valorant-agent-hush-tips-strategies">Red Bull</a>, <a href="https://www.forbes.com/sites/mikestubbs/2026/10/18/new-valorant-agent-hush-has-telekinesis-powers-to-move-enemies/">Forbes</a>, <a href="https://egamersworld.com/blog/valorant-new-agent-hush-release-date-abilities-lor-rTA65C-xn">Egamersworld</a>, <a href="https://win.gg/valorant-new-agent-hush-release-date-and-abilities/">WIN.gg</a></li>
+<li>Patch 13.09: <a href="https://dotesports.com/valorant/news/valorant-13-09-patch-notes">Dot Esports</a>, <a href="https://www.dexerto.com/valorant/valorant-13-09-update-brings-hush-as-new-agent-and-buff-ability-changes-3422128/">Dexerto</a></li>
+<li>Miks and Veto: <a href="https://beebom.com/valorant-miks-guide/">Beebom on Miks</a>, <a href="https://beebom.com/valorant-veto-guide-abilities-ultimate-tips-tricks">Beebom on Veto</a>, <a href="https://oneesports.gg/valorant/waylay-abilities-hindering-mechanic/">ONE Esports on Waylay</a></li>
+<li>Movement: <a href="https://www.strafe.com/articles/read/how-do-you-strafe-in-valorant/">Strafe movement guide (2026)</a></li>
+<li>Aim and crosshair: <a href="https://www.redbull.com/au-en/valorant-aiming-tips-guide">Red Bull aiming tips</a>, <a href="https://www.calcioefinanza.it/2026/03/26/crosshair-placement-in-valorant-the-skill-that-actually-matters/">crosshair placement guide</a>, <a href="https://www.sportskeeda.com/valorant/valorant-aim-guide-how-improve-core-gameplay-mechanics">Sportskeeda on eDPI</a></li>
+<li>Pros: <a href="https://www.oneesports.gg/valorant/tenz-tips-how-to-rank-up-valorant/">TenZ&rsquo;s ten tips</a>, <a href="https://www.espn.in/esports/story/_/id/29242734/valorant-tips-tricks-pros">ESPN pro tips</a>, <a href="https://sportskeeda.com/valorant/demon1-aim-routine-2024-how-aim-like-valorant-pro">Demon1&rsquo;s routine</a>, <a href="https://www.vlr.gg/post/9884">VLR on IGLs</a></li>
+<li>Ranks: <a href="https://prosettings.net/blog/valorant-tips-for-each-rank/">ProSettings tips by rank</a>, <a href="https://valking.gg/ranked-distribution">valking.gg distribution</a>, <a href="https://www.esportstales.com/valorant/rank-distribution-and-percentage-of-players-by-tier">Esports Tales</a>, <a href="https://www.pcgamer.com/all-valorant-ranks-list/">PC Gamer</a></li>
+<li>Mindset and decisions: <a href="https://gosuacademy.com/blogs/news/how-to-rank-up-fast-in-valorant-pro-tips-from-coaches-whove-trained-5-000-players">Gosu Academy</a>, <a href="https://www.hotspawn.com/?p=91384">Hotspawn on clutches</a>, <a href="https://boostroom.com/blog/communication-callouts-how-to-igl-in-solo-queue-without-being-toxic">Boostroom comms</a>, <a href="https://mobalytics.gg/blog/valorant/valorant-radiant-players-guide-communicating-solo-queue/">Mobalytics comms</a>, <a href="https://alviran.net/?p=35337">trading guide</a></li>
+<li>Economy: <a href="https://www.thespike.gg/valorant/beginner-guides/valorant-economy-guide">TheSpike</a>, <a href="https://www.si.com/esports/valorant/how-to-buy-guide">Sports Illustrated</a></li>
+</ul>
+<p class="asof">Original diagrams are my own sketches. They do not show real maps or Riot artwork. Everything else is paraphrased from the sources above.</p>
+</div></section>
+</div>
+
+<script>
+/* rank bars */
+(function(){
+  var data=[["Iron",6.5],["Bronze",15.1],["Silver",19.4],["Gold",22.4],["Platinum",18.6],["Diamond",12.0],["Ascendant",5.1],["Immortal",0.9],["Radiant",0.05]];
+  var g=document.getElementById("rankbars");if(!g)return;
+  var out="",x0=112,scale=19,rowH=36,top=26;
+  data.forEach(function(d,i){
+    var y=top+i*rowH,w=Math.max(d[1]*scale,3),hi=d[0]==="Gold";
+    out+='<rect x="'+x0+'" y="'+y+'" width="'+w+'" height="24" rx="8" style="fill:'+(hi?"var(--bar-hi)":"var(--bar)")+';stroke:var(--ink);stroke-width:2"/>';
+    out+='<text class="md" x="'+(x0-10)+'" y="'+(y+18)+'" text-anchor="end">'+d[0]+'</text>';
+    out+='<text class="md" x="'+(x0+w+8)+'" y="'+(y+18)+'">'+(d[1]<1?"~"+d[1]:d[1])+'%</text>';
+  });
+  g.innerHTML=out;
+})();
+
+/* agents */
+(function(){
+  var R={D:["Duelist","duel"],I:["Initiator","init"],C:["Controller","ctrl"],S:["Sentinel","sent"]};
+  var A=[
+  {n:"Jett",r:"D",s:"Space-taker",d:"Medium",p:"Fast and airborne. Takes space, then leaves before the trade.",a:[["Cloudburst","Throw a short smoke you bend with your crosshair."],["Updraft","Jump high onto ledges others cannot reach."],["Tailwind","Dash the way you are moving. Recharges with kills."],["Blade Storm","Throw precise knives; kills refill them."]],t:"Dash after you have gotten the kill, not before."},
+  {n:"Phoenix",r:"D",s:"Flash entry",d:"Medium",p:"Self-healing fighter who blinds and goes.",a:[["Curveball","A flash that curves around a corner. Look away from it yourself."],["Hot Hands","A fire zone that damages enemies and heals you inside it."],["Blaze","A bendable wall of fire that blocks sight."],["Run It Back","Mark a spot and run in; you return there when the time ends or you die."]],t:"Flash first, count to one, then swing."},
+  {n:"Raze",r:"D",s:"Space-taker",d:"Hard",p:"Explosive entry who clears corners with firepower.",a:[["Boom Bot","A little robot that rolls forward and explodes on contact."],["Blast Pack","A sticky satchel you can blow up to launch yourself or hurt enemies."],["Paint Shells","A cluster grenade that makes many small blasts."],["Showstopper","A rocket launcher."]],t:"Use the bot to find them before you walk in."},
+  {n:"Reyna",r:"D",s:"Self-sufficient fragger",d:"Medium",p:"Wins fights alone and heals from kills.",a:[["Leer","A floating eye that blinds enemies who look at it. It can be shot."],["Devour","Eat a soul orb from a kill to heal fast."],["Dismiss","Eat a soul orb to become untargetable and move fast."],["Empress","Fire faster and see more; kills extend it."]],t:"She needs kills to work. Take the first fight."},
+  {n:"Yoru",r:"D",s:"Flash entry / trickster",d:"Hard",p:"Tricks, fake footsteps and flanks.",a:[["Fakeout","A clone that runs forward making footsteps. Shoot it and it flashes."],["Blindside","A flash that bounces off a wall, then pops."],["Gatecrash","Send a teleport marker out, then teleport to it."],["Dimensional Drift","Slip into another dimension where enemies cannot see you."]],t:"Your fakes are for the enemy's ears. Use them."},
+  {n:"Neon",r:"D",s:"Flash entry / speed",d:"Medium",p:"Sprint, slide and stun.",a:[["Fast Lane","Two lines of walls that block sight and hurt anyone who crosses."],["Relay Bolt","A bouncing bolt that stuns where it lands."],["High Gear","Sprint, and slide with alt fire. Uses a limited energy bar."],["Overdrive","A beam from your gun; deadly when you aim well."]],t:"Slide in after the stun, not before."},
+  {n:"Iso",r:"D",s:"Self-sufficient fragger",d:"Hard",p:"A one-versus-one specialist.",a:[["Undercut","A bolt that makes enemies take extra damage."],["Double Tap","After a kill you gain a shield."],["Contingency","A wall that blocks bullets and moves forward."],["Kill Contract","Pull you and one enemy into a private arena; the winner returns."]],t:"Shield after a kill, and pick duels you can win."},
+  {n:"Waylay",r:"D",s:"Space-taker",d:"Medium",p:"A light-powered dasher who hinders enemies.",a:[["Saturate","A cluster of light that slows enemy movement and weapon actions (hindered)."],["Light Speed","Dash twice (alt fire for once); the first dash can send you up."],["Refract","Drop a beacon; reactivate and zip back, invulnerable while you travel."],["Convergent Paths","A zone that hinders enemies and gives your team a speed boost."]],t:"Place your Refract before you take space, so you can escape."},
+  {n:"Hush",r:"D",s:"Precision / displacement",d:"New",p:"Moves enemies and herself with telekinesis. Agent 31, the 30th playable.",a:[["Telekinesis","Passive: pick up weapons and the Spike from range, and press switches from afar."],["Flow","Place an anchor instantly and get pulled to it. In the air she hovers briefly."],["Flashbulb","A steerable flash. Redirect it mid-air with your crosshair."],["Displacement","A steerable grenade that pulls players to its centre; those slammed into walls or each other are concussed. Recharges every two kills."],["Suspension","A steerable orb; detonate it to lift every player inside into the air."]],t:"Her power is control. Use Flow to take unexpected angles, not just to run in."},
+
+  {n:"Sova",r:"I",s:"Recon",d:"Medium",p:"The information machine.",a:[["Owl Drone","Fly a drone and tag enemies with darts."],["Shock Bolt","An explosive arrow that bounces."],["Recon Bolt","An arrow that scans and reveals enemies in its area."],["Hunter's Fury","Three long energy blasts that go through walls."]],t:"Lineups matter. Learn two per site."},
+  {n:"Breach",r:"I",s:"Flash and stun support",d:"Easy",p:"Walls are not a problem for his utility.",a:[["Aftershock","A delayed blast through walls that damages."],["Flashpoint","A flash that goes through walls."],["Fault Line","A seismic blast that concusses."],["Rolling Thunder","A cone quake that knocks players up."]],t:"Tell your entry before you flash, always."},
+  {n:"Skye",r:"I",s:"Support: heal and flash",d:"Medium",p:"A healer with animal helpers.",a:[["Regrowth","Channel a heal on teammates in range."],["Trailblazer","A tiger that concusses what it hits."],["Guiding Light","A hawk that flashes."],["Seekers","Three seekers that hunt and nearsight enemies."]],t:"Heal in cover, not in the open."},
+  {n:"KAY/O",r:"I",s:"Anti-utility / suppressor",d:"Hard",p:"A robot that shuts off abilities.",a:[["FLASH/drive","A flash grenade."],["ZERO/point","A knife that suppresses abilities in an area."],["FRAG/ment","An explosive that damages."],["NULL/cmd","A pulse around you that suppresses enemies; you can be revived."]],t:"Suppress before the execute so they cannot use their tools."},
+  {n:"Fade",r:"I",s:"Recon",d:"Easy",p:"Hunts enemies with fear.",a:[["Prowler","A creature that hunts the nearest enemy."],["Seize","A hand that traps and pulls enemies."],["Haunt","An eye that reveals enemies."],["Nightfall","A wave that marks and deafens enemies."]],t:"Throw Haunt into the corner you were afraid of."},
+  {n:"Gekko",r:"I",s:"Flash and stun support",d:"Easy",p:"Critters that you can pick up and reuse.",a:[["Wingman","A critter that plants or defuses the Spike, or fights."],["Dizzy","A critter that blinds."],["Mosh Pit","An area damage blast."],["Thrash","A controllable creature that detains."]],t:"Always pick your critters back up."},
+  {n:"Tejo",r:"I",s:"Explosive flusher",d:"Medium",p:"Flushes people out with missiles and blasts.",a:[["Stealth Drone","A silent drone that pulses and reveals enemies."],["Special Delivery","A sticky grenade that concusses."],["Guided Salvo","Pick up to two target spots on the map; missiles go and detonate."],["Armageddon","A line of explosions."]],t:"Open the map, pick two spots, and let your team follow the blast."},
+
+  {n:"Brimstone",r:"C",s:"Global smoker",d:"Easy",p:"Smokes from the map, easy to understand.",a:[["Stim Beacon","A team buff for speed (Haste)."],["Incendiary","A fire zone on the ground."],["Sky Smoke","Place smokes from the map screen."],["Orbital Strike","A big strike on a target spot."]],t:"Place smokes before the fight, not during."},
+  {n:"Viper",r:"C",s:"Wall / zone",d:"Easy",p:"Creates poison zones that last.",a:[["Snake Bite","An acid puddle that damages."],["Poison Cloud","A cloud smoke you can pick up and reuse."],["Toxic Screen","A long wall of poison."],["Viper's Pit","A big cloud that reduces vision and health."]],t:"Fuel matters. Place your wall so it lasts."},
+  {n:"Omen",r:"C",s:"On-body smoker",d:"Medium",p:"Smokes and teleports.",a:[["Shrouded Step","A short teleport."],["Paranoia","A blinding blast through walls."],["Dark Cover","A smoke you place with a map targeter."],["From the Shadows","A teleport across the map."]],t:"Use your teleport to confuse, not only to escape."},
+  {n:"Astra",r:"C",s:"Global map controller",d:"Hard",p:"Places stars from a map view.",a:[["Gravity Well","Pull enemies in and make them vulnerable."],["Nova Pulse","A concussive blast."],["Nebula / Dissipate","A smoke, or a fake smoke."],["Cosmic Divide","A wall that blocks and muffles bullets."]],t:"Place stars early and keep your team's plan in your head."},
+  {n:"Harbor",r:"C",s:"Water wall",d:"Easy",p:"Controls space with water.",a:[["Cascade","A rolling wave that slows."],["Cove","A shield bubble that blocks bullets."],["High Tide","A wall of water you steer."],["Reckoning","A geyser burst that damages."]],t:"Shape the wall with your crosshair."},
+  {n:"Clove",r:"C",s:"Aggressive smoker",d:"Easy",p:"A smoker who can fight and keep working after death.",a:[["Pick-me-up","Absorb a kill for a Haste boost and extra health. Nerfed in 13.09 (speed 15% to 10%)."],["Meddle","A burst that decays enemies."],["Ruse","Place smokes from a map targeter, even after you die."],["Not Dead Yet","Revive yourself, then get a kill to stay alive."]],t:"Remember your smokes can still be used after you die."},
+  {n:"Miks",r:"C",s:"Support controller",d:"Medium",p:"The first healing controller. Music-themed.",a:[["M-pulse","A device with two modes: a concussing pulse or a healing wave."],["Harmonize","Link with a teammate for a shared Combat Stim that refreshes on kills."],["Waveform","Place smokes from a map targeter; they deploy instantly."],["Bassquake","A sonic blast that knocks back, deafens and slows enemies."]],t:"Heal and stim before the push, then smoke."},
+
+  {n:"Killjoy",r:"S",s:"Setup and trap",d:"Easy",p:"Locks down space with gadgets.",a:[["Alarmbot","A bot that hunts and makes enemies vulnerable."],["Turret","A turret that shoots enemies in view."],["Nanoswarm","A hidden grenade that damages when activated."],["Lockdown","A device that detains everyone in a big area."]],t:"Set up near cover so she can retreat."},
+  {n:"Cypher",r:"S",s:"Setup and trap",d:"Medium",p:"A spy who knows where you are.",a:[["Trapwire","A tripwire that tags and restrains."],["Cyber Cage","A cage that blocks sight."],["Spycam","A camera that shoots tracking darts."],["Neural Theft","Extract info from a dead enemy to show their allies (a Snapshot reveal)."]],t:"Hide the trapwire at a height that does not look suspicious."},
+  {n:"Sage",r:"S",s:"Healer and wall",d:"Easy",p:"A healer who can block paths.",a:[["Slow Orb","A field that slows."],["Healing Orb","Heal an ally or yourself."],["Barrier Orb","A wall that blocks movement."],["Resurrection","Revive a fallen teammate."]],t:"Use the wall to slow, not just block."},
+  {n:"Chamber",r:"S",s:"Mobile / aggressive",d:"Hard",p:"A sniper with escape routes.",a:[["Trademark","A trap that slows and shows enemies."],["Headhunter","A heavy pistol."],["Rendezvous","Teleport to a placed anchor."],["Tour De Force","A powerful sniper rifle."]],t:"Take one shot, then leave."},
+  {n:"Deadlock",r:"S",s:"Setup and trap",d:"Medium",p:"Denies entry to a site.",a:[["GravNet","A grenade that pulls enemies to the ground."],["Sonic Sensor","A sensor that stuns when triggered by noise."],["Barrier Mesh","Walls that block movement."],["Annihilation","A pulse that captures an enemy and drags them away."]],t:"Place your traps where they must pass."},
+  {n:"Vyse",r:"S",s:"Disarm / trap",d:"Hard",p:"A liquid-metal trap maker.",a:[["Razorvine","A wall of thorns that damages and slows."],["Shear","A hidden wall trap."],["Arc Rose","A hidden trap that blinds when set off. Can be picked up and reused."],["Steel Garden","A burst that jams enemy weapons for a short time."]],t:"Place your traps to catch people after they enter, not before."},
+  {n:"Veto",r:"S",s:"Utility denial / mobile",d:"Hard",p:"A sentinel who shuts down abilities.",a:[["Crosscut","Place a vortex; look at it to teleport there."],["Chokehold","A slime trap that deafens and weakens enemies."],["Interceptor","A device that destroys nearby enemy gadgets and projectiles."],["Evolution","Needs seven ultimate orbs. Immune to debuffs, with regen and stronger fights."]],t:"Place your teleport before you need it."}
+  ];
+  var tabs=document.getElementById("agents-top"),host=document.getElementById("agents");
+  if(!tabs||!host)return;
+  var filter="ALL";
+  function render(){
+    var h="";
+    A.forEach(function(a){
+      if(filter!=="ALL"&&a.r!==filter)return;
+      var ro=R[a.r],last=a.a.length-1;
+      h+='<article class="ac r-'+ro[1]+'"><header><h4>'+a.n+'</h4><span class="chip role">'+ro[0]+'</span><span class="chip sub">'+a.s+'</span><span class="diff">'+a.d+'</span></header><p class="play">'+a.p+'</p><ul>';
+      a.a.forEach(function(x,i){h+='<li'+(i===last?' class="ult"':'')+'><b>'+x[0]+'</b>'+x[1]+'</li>';});
+      h+='</ul><p class="tip">Start here: '+a.t+'</p></article>';
+    });
+    host.innerHTML=h;
+    Array.prototype.forEach.call(tabs.children,function(b){b.setAttribute("aria-pressed",b.getAttribute("data-k")===filter?"true":"false");});
+  }
+  [["ALL","All 30"],["D","Duelists (9)"],["I","Initiators (7)"],["C","Controllers (7)"],["S","Sentinels (7)"]].forEach(function(t){
+    var b=document.createElement("button");b.type="button";b.textContent=t[1];b.setAttribute("data-k",t[0]);
+    b.addEventListener("click",function(){filter=t[0];render();});tabs.appendChild(b);
+  });
+  render();
+})();
+
+/* checklist, saved per viewer */
+(function(){
+  var box=document.getElementById("checks");if(!box)return;
+  var key="valorant-field-notes-reps",state={};
+  try{state=JSON.parse(localStorage.getItem(key)||"{}")||{};}catch(e){state={};}
+  var ins=box.querySelectorAll("input[type=checkbox]");
+  Array.prototype.forEach.call(ins,function(i){
+    i.checked=!!state[i.getAttribute("data-k")];
+    i.addEventListener("change",function(){
+      state[i.getAttribute("data-k")]=i.checked;
+      try{localStorage.setItem(key,JSON.stringify(state));}catch(e){}
+    });
+  });
+  var rb=document.getElementById("resetchecks");
+  if(rb)rb.addEventListener("click",function(){
+    state={};Array.prototype.forEach.call(ins,function(i){i.checked=false;});
+    try{localStorage.removeItem(key);}catch(e){}
+  });
+})();
+</script>
+
+</body></html>
